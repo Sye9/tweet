@@ -3,19 +3,13 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 
-from django.core.exceptions import ValidationError
-
 from django.db import models
+
+from .validators import validate_content
 
 # Create your models here.
 
 User = settings.AUTH_USER_MODEL
-
-def validate_content(value):
-	content = value
-	if content == "abc":
-		raise ValidationError("Content cannot be ABC")
-	return value
 
 class Tweet(models.Model):
 	user 			= models.ForeignKey(User)
