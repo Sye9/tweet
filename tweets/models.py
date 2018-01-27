@@ -7,5 +7,3 @@ from django.db import models
 
 class Tweet(models.Model):
 	content 		= models.TextField()
-	content2 		= models.TextField()
-	content3		= models.TextField()
