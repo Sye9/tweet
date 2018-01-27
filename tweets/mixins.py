@@ -1,4 +1,6 @@
+from django.forms.utils import ErrorList
 
+from django import forms
 
 class FormUserNeededMixin(object):
 	def form_valid(self, form):

@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.shortcuts import render, get_object_or_404
-
-from django import forms
-
-from django.forms.utils import ErrorList
 
 from django.views.generic import (
 	DetailView,
@@ -21,10 +19,11 @@ from .mixins import FormUserNeededMixin
 
 # Create your views here.
 
-class TweetCreateView(FormUserNeededMixin, CreateView):
+class TweetCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	form_class = TweetModelForm
 	template_name = 'tweets/create_view.html'
 	success_url = "/tweet/create/"
+	login_url = "/admin/login/"
 
 	# def form_valid(self, form):
 	# 	if self.request.user.is_authenticated():
