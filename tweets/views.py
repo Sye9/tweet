@@ -26,7 +26,7 @@ from .mixins import FormUserNeededMixin, UserOwnerMixin
 class TweetCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
 	form_class = TweetModelForm
 	template_name = 'tweets/create_view.html'
-	success_url = "/tweet/create/"
+	# success_url = reverse_lazy("tweet:detail")
 	login_url = "/admin/login/"
 
 class TweetUpdateView(UserOwnerMixin, LoginRequiredMixin, UpdateView):
@@ -37,7 +37,7 @@ class TweetUpdateView(UserOwnerMixin, LoginRequiredMixin, UpdateView):
 
 class TweetDeleteView(LoginRequiredMixin, DeleteView):
 	model = Tweet
-	success_url = reverse_lazy("home")
+	success_url = reverse_lazy("tweet:list")
 	template_name = 'tweets/delete_confirm.html'
 	
 
