@@ -2,8 +2,14 @@
 
 {% block content %}
 
-	{{ object.content }}<br/>
-	{{ object.user }}<br/>
-	{{ object.timestamp }} {{ object.updated|timesince }}<br/>
+<div class="row">
+	<div class="col-sm-3 col-xs-12" style="background-color: yellow;">
+		<h1>{{ object.content }}</h1>
+	</div>
+	<div class="col-sm-9">
+		{{ object.user }}<br/><br/>
+		{{ object.timestamp }} {{ object.updated|timesince }}
+	</div>
+</div>
 
 {% endblock content %}
