@@ -2,9 +2,10 @@
 
 {% block content %}
 
+{% include 'navbar.html' %}
+
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
-			{% include 'tweets/search_form.html' %}<br/>
 			{% for obj in object_list %}
 				<div class="media">
 					<div class="media-left">
@@ -28,5 +29,5 @@
 			{% endfor %}
 		</div>
 	</div>
-	
+
 {% endblock content %}
