@@ -1,5 +1,39 @@
 {% extends 'base.html' %}
 
+{% block script %}
+
+<script>
+$(document).ready(function(){
+	console.log("working")
+
+	$.ajax({
+		url: "{% url 'tweet-api:list' %}",
+		method: "GET",
+		success: function(data){
+			// console.log(data)
+			$.each(data, function(key, value){
+				// console.log(key)
+				// console.log(value.user)
+				// console.log(value.content)
+				var tweetKey = key;
+				var tweetContent = value.content;
+				var tweetUser = value.user;
+				$("#tweet-container").append(
+						"<div class=\"media\"><div class=\"media-body\">" + tweetContent + "<br/> via " + tweetUser.username + "|" + "<a href='#'>View</a>" + "</div></div><hr/>"
+					)
+			})
+		},
+		error: function(data){
+			console.log("error")
+			console.log(data)
+		}
+	})
+
+});
+</script>
+
+{% endblock script %}
+
 {% block content %}
 	<div class="row">
 		<div class="col-sm-3 col-xs-12" style="background-color: red;">
@@ -13,18 +47,8 @@
 				<hr/>
 			{% endif %}
 			{% for obj in object_list %}
-				<div class="media">
-					<div class="media-left">
-						<a href="#">
-						{% if object.image %}
-							<img class="media-object" src="..." alt="...">
-						{% endif %}
-						</a>
-					</div>
-					<div class="media-body">
-						{{ obj.content }}<br/>
-						via {{ obj.user }} | {{ obj.timestamp }} {{ obj.updated|timesince }} ago. | <a href="{{ obj.get_absolute_url }}">View</a>
-					</div>
+				<div id="tweet-container">
+					
 				</div><br/>
 				<hr/>
 				{% empty %}
