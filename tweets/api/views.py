@@ -26,6 +26,7 @@ class TweetListAPIView(generics.ListAPIView):
 		if query is not None:
 			qs = qs.filter(
 					Q(content__icontains=query)|
+					Q(content__iexact=query)|
 					Q(user__username__icontains=query)
 					)
 		return qs
