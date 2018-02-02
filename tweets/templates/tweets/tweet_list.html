@@ -30,7 +30,7 @@ $(document).ready(function(){
 		var dateDisplay = tweetValue.date_display
 		var tweetContent = tweetValue.content;
 		var tweetUser = tweetValue.user;
-		var tweetFormattedHTML = "<div class=\"media\"><div class=\"media-body\">" + tweetContent + "<br/> via " + tweetUser.username + " | "+ dateDisplay + " | " + " <a href='#'>View</a>" + "</div></div><hr/>"
+		var tweetFormattedHTML = "<div class=\"media\"><div class=\"media-body\">" + tweetContent + "<br/> via " + tweetUser.username + " | "+ dateDisplay + " | " + " <a href='get_absolute_url'>View</a>" + "</div></div><hr/>"
 		if (prepend == true){
 			$("#tweet-container").prepend(tweetFormattedHTML)
 		} else {
