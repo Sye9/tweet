@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
+{% block script %}
+
+<script>
+
+$(document).ready(function(){
+	loadTweetContainer("tweet-container")
+});
+</script>
+
+{% endblock script %}
+
 {% block content %}
 
 <div class="row">
@@ -11,9 +22,11 @@
 	</div>
 	<div class="col-sm-9">
 		<h1>Tweets</h1>
-		{% for tweet in object.tweet_set.all %}
-			{{ tweet }}<br/>
-		{% endfor %}
+
+		<div id="tweet-container" data-url='/api/{{ object.username }}/tweet/'>
+				
+		</div>
+		<a href="#" id='loadmore'>Load More Tweets</a>
 
 		<hr/>
 		<h1>Following <small>{{ object.profile.get_following.count }}</small></h1>
