@@ -63,8 +63,8 @@
         var initialURL = tweetContainer.attr("data-url") || "/api/tweet/";
         console.log(initialURL)
 
-        $(document.body).on("click", ".retweetBtn",function(e){
-          e.preventDefault()
+        $(document.body).on("click", ".retweetBtn",function(event){
+          event.preventDefault()
           console.log("clicked")
           var url = "/api" + $(this).attr("href")
           $.ajax({
@@ -102,7 +102,7 @@
           if (retweet && tweetValue.parent){
             var mainTweet = tweetValue.parent
             // retweet
-            tweetFormattedHTML = "<div class=\"media\"><div class=\"media-body\"><span class='grey-color'>Retweet via " + tweetUser.username + " on " + dateDisplay + "</span><br/>" + mainTweet.content + "<br/> via <a href='" + mainTweet.user.url + "'>" + mainTweet.user.username + "</a> | "+ mainTweet.date_display + " | " + "<a class='retweetBtn href='/tweet/" + mainTweet.id + "'>View</a> | "+ "<a href='/tweet/" + mainTweet.id + "/retweet/" + "'>Retweet</a>" + "</div></div><hr/>"
+            tweetFormattedHTML = "<div class=\"media\"><div class=\"media-body\"><span class='grey-color'>Retweet via " + tweetUser.username + " on " + dateDisplay + "</span><br/>" + mainTweet.content + "<br/> via <a href='" + mainTweet.user.url + "'>" + mainTweet.user.username + "</a> | "+ mainTweet.date_display + " | " + "<a class='retweetBtn' href='/tweet/" + mainTweet.id + "'>View</a> | " + "<a class='retweetBtn' href='/tweet/" + mainTweet.id + "/retweet/" + "'>Retweet</a>" + "</div></div><hr/>"
           } else {
             //fresh tweet
             tweetFormattedHTML = "<div class=\"media\"><div class=\"media-body\">" + tweetContent + "<br/> via <a href='" + tweetUser.url + "'>" + tweetUser.username + "</a> | "+ dateDisplay + " | " + "<a href='/tweet/" + tweetValue.id + "'>View</a> | " + "<a class='retweetBtn' href='/tweet/" + tweetValue.id + "/retweet/" + "'>Retweet</a>" + "</div></div><hr/>"
