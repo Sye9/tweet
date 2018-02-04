@@ -23,7 +23,7 @@ class LikeToggleAPIView(APIView):
 		if request.user.is_authenticated():
 			is_liked = Tweet.objects.like_toggle(request.user, tweet_qs.first())
 			return Response({'liked': is_liked})
-			
+
 		return Response({"message": message}, status=400)
 
 class RetweetAPIView(APIView):
@@ -51,6 +51,10 @@ class TweetCreateAPIView(generics.CreateAPIView):
 class TweetListAPIView(generics.ListAPIView):
 	serializer_class = TweetModelSerializer
 	pagination_class = StandardResultsPagination
+
+	def get_serializer_context(self, *args, **kwargs):
+		context = super(TweetListAPIView, self).get_serializer_context(*args, **kwargs)
+		return context
 
 	def get_queryset(self, *args, **kwargs):
 		requested_user = self.kwargs.get("username")
