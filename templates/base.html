@@ -27,9 +27,10 @@
     <div class="container">
       {% block content %}
       {% endblock content %}
+      
     </div>
-    
     {% include 'reply-modal.html' %}
+    
 
 
 
@@ -98,6 +99,11 @@
 
           $("#replyModal").modal({})
 
+          $("#replyModal textarea").val("@" + username + " ")
+
+          $("#replyModal").on("shown.bs.modal", function(){
+            $('textarea').focus()
+          })
         })
 
         $(document.body).on("click", ".retweetBtn",function(event){
@@ -235,13 +241,13 @@
         var charStart = 140;
         var charsCurrent = 0;
 
-        $(".tweet-form").append("<span id='tweetCharsLeft'>" + charStart + "</span>")
+        $(".tweet-form").append("<span class='tweetCharsLeft'>" + charStart + "</span>")
 
         $(".tweet-form textarea").keyup(function(event){
           // console.log(event.key, event.timeStamp)
           var tweetValue = $(this).val()
           charsCurrent = charStart - tweetValue.length
-          var spanChars = $("#tweetCharsLeft")
+          var spanChars = $(this).parent().parent().parent().find("span.tweetCharsLeft")
           spanChars.text(charsCurrent)
 
           if (charsCurrent > 0) {
@@ -271,6 +277,7 @@
                 this_.find("input[type=text], textarea").val("")
                 attachTweet(data, true)
                 updateHashLinks()
+                $("#replyModal").modal("hide")
               },
               error: function(data){
                 console.log("error")
