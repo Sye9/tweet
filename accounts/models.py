@@ -40,6 +40,14 @@ class UserProfileManager(models.Manager):
 			return True
 		return False
 
+	def recommended(self, user, limit_to=10):
+		profile = user.profile
+		following = profile.following.all()
+		following = profile.get_following()
+		qs = self.get_queryset().exclude(user__in=following).exclude(id=profile.id).order_by("?")[:limit_to]
+		return qs
+
+
 class UserProfile(models.Model):
 	user 		= models.OneToOneField(User, related_name='profile')
 	following 	= models.ManyToManyField(User, blank=True, related_name='followed_by')
