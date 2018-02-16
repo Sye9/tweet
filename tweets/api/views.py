@@ -8,13 +8,15 @@ from rest_framework.views import APIView
 
 from rest_framework.response import Response
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from tweets.models import Tweet
 
 from .pagination import StandardResultsPagination
 
 from .serializers import TweetModelSerializer
 
-class LikeToggleAPIView(APIView):
+class LikeToggleAPIView(LoginRequiredMixin, APIView):
 	permission_classes = [permissions.IsAuthenticated]
 
 	def get(self, request, pk, format=None):
@@ -26,7 +28,7 @@ class LikeToggleAPIView(APIView):
 
 		return Response({"message": message}, status=400)
 
-class RetweetAPIView(APIView):
+class RetweetAPIView(LoginRequiredMixin, APIView):
 	permission_classes = [permissions.IsAuthenticated]
 
 	def get(self, request, pk, format=None):
@@ -40,14 +42,14 @@ class RetweetAPIView(APIView):
 			message = "Cannot retweet the same in 1 day"
 		return Response({"message": message}, status=400)
 
-class TweetCreateAPIView(generics.CreateAPIView):
+class TweetCreateAPIView(LoginRequiredMixin, generics.CreateAPIView):
 	serializer_class = TweetModelSerializer
 	permission_classes = [permissions.IsAuthenticated]
 
 	def perform_create(self, serializer):
 		serializer.save(user=self.request.user)
 
-class TweetDetailAPIView(generics.ListAPIView):
+class TweetDetailAPIView(LoginRequiredMixin, generics.ListAPIView):
 	queryset = Tweet.objects.all()
 	serializer_class = TweetModelSerializer
 	pagination_class = StandardResultsPagination
@@ -62,7 +64,7 @@ class TweetDetailAPIView(generics.ListAPIView):
 			qs = (qs | qs1).distinct().extra(select={"parent_id_null": 'parent_id IS NULL'})
 		return qs.order_by("-parent_id_null", "-timestamp")
 
-class SearchTweetAPIView(generics.ListAPIView):
+class SearchTweetAPIView(LoginRequiredMixin, generics.ListAPIView):
 	queryset = Tweet.objects.all().order_by("-timestamp")
 	serializer_class = TweetModelSerializer
 	pagination_class = StandardResultsPagination
@@ -82,7 +84,7 @@ class SearchTweetAPIView(generics.ListAPIView):
 				)
 		return qs
 
-class TweetListAPIView(generics.ListAPIView):
+class TweetListAPIView(LoginRequiredMixin, generics.ListAPIView):
 	serializer_class = TweetModelSerializer
 	pagination_class = StandardResultsPagination
 

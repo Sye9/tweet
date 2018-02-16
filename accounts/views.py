@@ -10,6 +10,8 @@ from django.views import View
 
 from django.views.generic.edit import FormView
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from .models import UserProfile
 
 from .forms import UserRegisterForm
@@ -32,7 +34,7 @@ class UserRegisterView(FormView):
         new_user.save()
         return super(UserRegisterView, self).form_valid(form)
 
-class UserDetailView(DetailView):
+class UserDetailView(LoginRequiredMixin, DetailView):
 	template_name = 'accounts/user_detail.html'
 	queryset = User.objects.all()
 
@@ -46,7 +48,7 @@ class UserDetailView(DetailView):
 		context['recommended'] = UserProfile.objects.recommended(self.request.user)
 		return context
 
-class UserFollowView(View):
+class UserFollowView(LoginRequiredMixin, View):
 	def get(self, request, username, *args, **kwargs):
 		toggle_user = get_object_or_404(User, username__iexact=username)
 		if request.user.is_authenticated():

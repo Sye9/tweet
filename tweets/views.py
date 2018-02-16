@@ -29,7 +29,7 @@ from .mixins import FormUserNeededMixin, UserOwnerMixin
 
 # Create your views here.
 
-class RetweetView(View):
+class RetweetView(LoginRequiredMixin, View):
 	def get(self, request, pk, *args, **kwargs):
 		tweet = get_object_or_404(Tweet, pk=pk)
 		if request.user.is_authenticated():
@@ -55,10 +55,10 @@ class TweetDeleteView(LoginRequiredMixin, DeleteView):
 	template_name = 'tweets/delete_confirm.html'
 	
 
-class TweetDetailView(DetailView):
+class TweetDetailView(LoginRequiredMixin, DetailView):
 	queryset = Tweet.objects.all()
 
-class TweetListView(ListView):
+class TweetListView(LoginRequiredMixin, ListView):
 	def get_queryset(self, *args, **kwargs):
 		qs = Tweet.objects.all()
 		# print(self.request.GET)
